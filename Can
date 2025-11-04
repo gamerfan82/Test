@@ -1,0 +1,78 @@
+data dw 43261
+dw 3253
+dw 1002
+dw 142
+dw 5531
+dw 9283
+dw 333
+dw 8213
+dw 8042
+dw 7041                                          
+
+                                                                   
+mov ax, 0                                                                   
+lea si, data
+mov ax, [si]
+mov cx, 10         
+mov dx, ax      
+    
+l1:                 
+dec cx     
+cmp cx, 0
+jz print
+add si, 2            
+mov bx, [si]         
+cmp bx, ax          
+jb l1
+mov dx, bx           
+jmp l1
+        
+
+
+print:
+mov ax, dx
+
+
+mov si, ax  
+
+mov bx, 10
+mov cx, 0
+p1:
+mov dx, 0
+div bx
+push dx
+inc cx
+cmp ax, 0
+jne p1
+p2:
+pop dx
+add dl, '0'
+mov ah, 2
+int 21h
+loop p2
+
+
+mov dl, 0Ah
+mov ah, 2
+int 21h
+
+
+mov ax, si
+mov bx, ax
+mov cx, 4
+h1:
+mov dx, bx
+shr dx, 12
+and dl, 0Fh
+cmp dl, 9
+jbe h2
+add dl, 7
+h2:
+add dl, '0'
+mov ah, 2
+int 21h
+shl bx, 4
+loop h1
+
+mov ah, 4Ch
+int 21h
