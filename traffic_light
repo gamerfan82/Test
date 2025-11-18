@@ -1,0 +1,63 @@
+#start=Traffic_Lights.exe#
+#start=led_display.exe#
+name "traffictimer"
+
+mov ax, all_red
+out 4, ax
+
+mov si, offset states   
+
+next:
+    mov ax, [si]       
+    out 4, ax
+
+    mov ax, [si+2]      
+x1:
+      out 199, ax      
+
+      push ax
+      mov cx,0fh       
+      mov dx,4240h
+      mov ah,86h
+      int 15h
+      pop ax
+
+      dec ax
+    jnz x1
+
+
+    add si, 4           
+    cmp si, sit_end
+    jb  next
+
+    mov si, offset states   
+    jmp next
+
+
+
+                ; FEDC_BA98_7654_3210
+states:
+
+right_green     dw  0000_0010_0110_0001b
+                dw  15
+
+right_yellow    dw  0000_0010_0101_0001b
+                dw  2
+
+left_green      dw  0000_1000_0100_1001b
+                dw  10
+
+
+left_yellow     dw  0000_0100_0100_1001b
+                dw  2
+
+vertical_green  dw  0000_0011_0000_1100b
+                dw  18
+
+vertical_yellow dw  0000_0010_1000_1010b
+                dw  2
+
+sit_end:
+
+
+all_red  equ 0000_0010_0100_1001b
