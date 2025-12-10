@@ -1,0 +1,51 @@
+mov dx, 3fd0h
+in al, dx  
+
+
+mov cx, 0fffh
+loop $
+
+l2:
+cmp al, 11111110b
+je l18           
+cmp al, 11111101b
+je l18
+
+cmp al, 01111111b
+je l63
+cmp al, 10111111b
+je l63
+
+jmp start
+
+l18:
+mov al, 00000010b
+mov dx, 3fd2h
+out dx, al    
+
+mov cx, 0fffh
+loop $          
+
+mov al, 10000000b
+mov dx, 3fd2h
+out dx, al          
+
+mov dx, 3fd0h
+in al, dx 
+jmp l2               
+        
+l63:
+mov al, 00000100b
+mov dx, 3fd2h
+out dx, al    
+
+mov cx, 0fffh
+loop $          
+
+mov al, 00100000b
+mov dx, 3fd2h
+out dx, al          
+
+mov dx, 3fd0h
+in al, dx 
+jmp l2                 
