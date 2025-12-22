@@ -1,0 +1,41 @@
+j1:
+mov ax, 0
+mov dx, 3fcah
+out dx, al
+
+mov cx, 20h
+loop $
+
+in al,dx
+mov bl , al 
+mov dh, 4
+int 10h
+
+mov cx,0
+loop $
+
+mov dx, offset back
+mov ah, 9
+int 21h
+
+cmp bl, 7bh
+ja l1
+
+jmp j1
+
+l1:   
+mov dx, 3fd2h
+mov al, 10000110b
+out dx, al
+
+mov cx, 0fffh
+loop $
+
+mov dx, 3fd2h
+mov al, 00000000b
+out dx, al
+
+jmp j1
+hlt
+
+back db 8,8,8,8,'$'
